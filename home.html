@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+</head>
+<body>
+    <div>
+        <h1>Create an Invoice</h1>
+        <input type="number" placeholder="Enter number" id="number"/>
+        <input type="number" placeholder="Enter Amount" id="amount"/>
+        <input type="date" placeholder="Enter Date" id="date"/>
+        <button id="add">Submit</button>
+    </div>
+    <br>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black">Sl no.</th>
+                    <th style="border: 1px solid black">Invoice Amount</th>
+                    <th style="border: 1px solid black">Invoice Date</th>
+                </tr>
+            </thead>
+            <tbody id="main">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script type="module">
+    import {apiCall, appendInvoices, deleteCall, postCall} from './scripts/home.js';
+    let url = 'http://localhost:5511/invoice';
+    let tbody = document.getElementById('main')
+    async function load(){
+    let res = await apiCall(`http://localhost:5511/invoice`)
+    appendInvoices(res,tbody);
+    }
+    load();
+    
+    let add1 = document.getElementById('add')
+    add1.addEventListener('click', ()=> {
+        let n = document.getElementById('number').value;
+        let a = document.getElementById('amount').value;
+        let d = document.getElementById('date').value;
+        postCall(n,a,d,url,tbody)
+    })
+    
+</script>
