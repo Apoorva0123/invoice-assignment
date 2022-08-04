@@ -31,14 +31,11 @@ function appendInvoices(data, main)
         })
         let td4 = document.createElement('td');
         td4.append(deleteBtn);
-        let n = el.number;
-        let a = el.amount;
-        let d = el.data;
         let updateBtn = document.createElement('button');
         updateBtn.innerText= "Update";
         updateBtn.addEventListener('click', ()=>{
             location.href= "invoice.html";
-            localStorage.setItem("id", el._id)
+            localStorage.setItem("element", JSON.stringify(el))
         })
         // updateBtn.addEventListener('click', ()=> {
         //     putCall(`http://localhost:5511/invoice/${el._id}`, main,n,a,d);
@@ -95,20 +92,18 @@ async function postCall(n,a,d,url,tbody) {
     }
 }
 
-async function putCall(url,main,n,a,d) {
+async function putCall(url,obj) {
 
     try
     {
         let res = await fetch(url, { 
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ number : n, amount: a, date: d }) 
+            body: JSON.stringify( obj ) 
         });
         let data = await res.json();
         alert("Updated Successfully");
-        tbody.innerHTML='';
-        let res1 = await apiCall(url);
-        appendInvoices(res1, main);
+        console.log(data);
     }
     catch(err)
     {
@@ -116,4 +111,4 @@ async function putCall(url,main,n,a,d) {
     }
 }
 
-export {apiCall, appendInvoices, deleteCall, postCall}
+export {apiCall, appendInvoices, deleteCall, postCall, putCall}

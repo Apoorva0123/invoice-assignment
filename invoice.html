@@ -8,9 +8,23 @@
 </head>
 <body>
     <h1>Update Invoice</h1>
-    <input placeholder="Enter amount">
-    <input placeholder="Enter date">
-    <button>Submit</button>
+    <h2 id="slno"></h2>
+    <input id="amt" placeholder="Enter amount" type="number">
+    <input id="date" placeholder="Enter date" type="date">
+    <button id="sub">Submit</button>
 </body>
 </html>
-<script></script>
+<script type="module">
+    import { putCall } from './scripts/home.js'
+    let obj = JSON.parse(localStorage.getItem('element'))
+    document.getElementById('slno').innerHTML = obj.number || ""
+    console.log(JSON.parse(localStorage.getItem('element')));
+
+    obj.amount = document.getElementById('amt').value || obj.amount;
+    obj.date = document.getElementById('date').value || obj.date;
+
+    document.getElementById('sub').addEventListener('click', async ()=> {
+        await putCall(`http://localhost:5511/invoice/${obj._id}`, obj);
+        //location.href = 'home.html'
+    })
+</script>
